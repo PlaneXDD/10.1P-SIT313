@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEV@Deakin Newsletter</title>
+    <link rel="stylesheet" href="css/styles.css">  <!-- Correct CSS Path -->
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up for Our Newsletter</h2>
+        <form id="newsletter-form">
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('newsletter-form');
+        const messageEl = document.getElementById('message');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+
+            fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                messageEl.textContent = data;
+            })
+            .catch(error => {
+                messageEl.textContent = 'There was an error signing up.';
+            });
+        });
+    </script>
+</body>
+</html>
